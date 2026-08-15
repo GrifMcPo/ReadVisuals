@@ -1,9 +1,14 @@
 plugins {
-    id 'fabric-loom' version '1.7-SNAPSHOT'
+    id 'fabric-loom' version '1.7.1'
+    id 'maven-publish'
 }
 
 version = "1.0.0"
 group = "com.readvisuals"
+
+base {
+    archivesName = "readvisuals"
+}
 
 repositories {
     maven {
@@ -18,4 +23,22 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:0.16.9"
     modImplementation "net.fabricmc.fabric-api:fabric-api:0.110.0+1.21.4"
     modImplementation "com.terraformersmc:modmenu:11.0.3"
+}
+
+processResources {
+    inputs.property "version", project.version
+    filteringCharset "UTF-8"
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 21
+}
+
+java {
+    withSourcesJar()
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
