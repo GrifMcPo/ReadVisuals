@@ -18,11 +18,21 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
 
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v3
+    - name: Download Gradle 8.5 Wrapper
+      run: |
+        mkdir -p gradle/wrapper
+        curl -L https://raw.githubusercontent.com/gradle/gradle/v8.5.0/gradle/wrapper/gradle-wrapper.jar -o gradle/wrapper/gradle-wrapper.jar
+        echo "distributionBase=GRADLE_USER_HOME" > gradle/wrapper/gradle-wrapper.properties
+        echo "distributionPath=wrapper/dists" >> gradle/wrapper/gradle-wrapper.properties
+        echo "distributionUrl=https\\://services.gradle.org/distributions/gradle-8.5-bin.zip" >> gradle/wrapper/gradle-wrapper.properties
+        echo "zipStoreBase=GRADLE_USER_HOME" >> gradle/wrapper/gradle-wrapper.properties
+        echo "zipStorePath=wrapper/dists" >> gradle/wrapper/gradle-wrapper.properties
+        echo '#!/bin/sh' > gradlew
+        echo 'exec java -jar gradle/wrapper/gradle-wrapper.jar "$@"' >> gradlew
+        chmod +x gradlew
 
     - name: Build with Gradle
-      run: gradle build
+      run: ./gradlew build
 
     - name: Upload JAR
       uses: actions/upload-artifact@v4
