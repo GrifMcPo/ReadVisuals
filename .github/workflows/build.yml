@@ -18,9 +18,15 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
 
-    - name: Build with Gradle (without wrapper)
+    - name: Download gradle-wrapper.jar
       run: |
-        gradle build --no-daemon
+        wget https://raw.githubusercontent.com/gradle/gradle/v8.5.0/gradle/wrapper/gradle-wrapper.jar -O gradle/wrapper/gradle-wrapper.jar
+
+    - name: Make gradlew executable
+      run: chmod +x gradlew
+
+    - name: Build with Gradle 8.5
+      run: ./gradlew build --no-daemon
 
     - name: Upload JAR
       uses: actions/upload-artifact@v4
