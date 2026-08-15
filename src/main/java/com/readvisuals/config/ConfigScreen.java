@@ -7,9 +7,6 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.CyclingButtonWidget;
 import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.MathHelper;
-
-import java.awt.*;
 
 public class ConfigScreen extends Screen {
     private final Screen parent;
@@ -28,8 +25,8 @@ public class ConfigScreen extends Screen {
         int centerX = this.width / 2;
         int y = 30;
 
-        // Timer Type
-        addDrawableChild(CyclingButtonWidget.<ModConfig.TimerType>builder(ModConfig.TimerType::getDisplayName)
+        addDrawableChild(CyclingButtonWidget.<ModConfig.TimerType>builder(
+                timerType -> Text.literal(timerType.getDisplayName()))
                 .values(ModConfig.TimerType.values())
                 .initially(ReadVisuals.CONFIG.timerType)
                 .build(centerX - 100, y, 200, 20, Text.literal("Тип таймера"), (button, value) -> {
@@ -38,8 +35,8 @@ public class ConfigScreen extends Screen {
                 }));
         y += 30;
 
-        // Color Mode
-        addDrawableChild(CyclingButtonWidget.<ModConfig.ColorMode>builder(ModConfig.ColorMode::getDisplayName)
+        addDrawableChild(CyclingButtonWidget.<ModConfig.ColorMode>builder(
+                colorMode -> Text.literal(colorMode.getDisplayName()))
                 .values(ModConfig.ColorMode.values())
                 .initially(ReadVisuals.CONFIG.colorMode)
                 .build(centerX - 100, y, 200, 20, Text.literal("Цвет"), (button, value) -> {
@@ -48,8 +45,8 @@ public class ConfigScreen extends Screen {
                 }));
         y += 30;
 
-        // Frame Type
-        addDrawableChild(CyclingButtonWidget.<ModConfig.FrameType>builder(ModConfig.FrameType::getDisplayName)
+        addDrawableChild(CyclingButtonWidget.<ModConfig.FrameType>builder(
+                frameType -> Text.literal(frameType.getDisplayName()))
                 .values(ModConfig.FrameType.values())
                 .initially(ReadVisuals.CONFIG.frameType)
                 .build(centerX - 100, y, 200, 20, Text.literal("Рамка"), (button, value) -> {
@@ -58,7 +55,6 @@ public class ConfigScreen extends Screen {
                 }));
         y += 30;
 
-        // Countdown Time (если выбран обратный отсчет)
         addDrawableChild(new SliderWidget(centerX - 100, y, 200, 20, Text.literal("Время: " + ReadVisuals.CONFIG.countdownTime + "с"), 0.0) {
             @Override
             protected void updateMessage() {
@@ -67,13 +63,12 @@ public class ConfigScreen extends Screen {
 
             @Override
             protected void applyValue() {
-                ReadVisuals.CONFIG.countdownTime = (int) (60 + this.value * 5940); // от 60 до 6000 секунд
+                ReadVisuals.CONFIG.countdownTime = (int) (60 + this.value * 5940);
                 ReadVisuals.CONFIG.save();
             }
         });
         y += 30;
 
-        // Scale Slider
         addDrawableChild(new SliderWidget(centerX - 100, y, 200, 20, Text.literal("Масштаб: " + String.format("%.1f", ReadVisuals.CONFIG.scale)), 0.0) {
             @Override
             protected void updateMessage() {
@@ -87,7 +82,6 @@ public class ConfigScreen extends Screen {
             }
         });
 
-        // Close button
         addDrawableChild(ButtonWidget.builder(Text.literal("Готово"), button -> {
                     if (this.client != null) {
                         this.client.setScreen(this.parent);
