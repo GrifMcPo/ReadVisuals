@@ -5,24 +5,19 @@
   "name": "ReadVisuals",
   "description": "Красивый таймер с рамкой для Minecraft",
   "authors": ["ReadVisuals"],
-  "contact": {
-    "homepage": "https://github.com/yourusername/ReadVisuals",
-    "sources": "https://github.com/yourusername/ReadVisuals"
-  },
   "license": "MIT",
-  "icon": "assets/readvisuals/icon.png",
   "environment": "client",
   "entrypoints": {
     "client": [
       "com.readvisuals.ReadVisuals"
     ],
     "modmenu": [
-      "com.readvisuals.config.ModMenuIntegration"
+      "com.readvisuals.modmenu.ModMenuIntegration"
     ]
   },
   "depends": {
-    "fabricloader": ">=${loader_version}",
-    "minecraft": "~${minecraft_version}",
+    "fabricloader": ">=0.16.9",
+    "minecraft": "~1.21.4",
     "java": ">=21",
     "fabric-api": "*",
     "modmenu": "*"
