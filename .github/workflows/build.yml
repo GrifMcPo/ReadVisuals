@@ -3,8 +3,6 @@ name: Build Mod
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
@@ -19,14 +17,11 @@ jobs:
       with:
         java-version: '21'
         distribution: 'temurin'
-        
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-      
+    
     - name: Build with Gradle
       run: ./gradlew build
-      
-    - name: Upload build artifacts
+    
+    - name: Upload JAR
       uses: actions/upload-artifact@v4
       with:
         name: ReadVisuals
